@@ -36,94 +36,83 @@ gameObj = {
       answer: 2
     },
     {
-      q: "Question Eight",
-      options: ['Answer one', 'Answer two', 'Answer three', 'Answer four'],
-      answer: 0
-    },
-    {
-      q: "Question Nine",
-      options: ['Answer one', 'Answer two', 'Answer three', 'Answer four'],
-      answer: 0
-    },
-    {
-      q: "Question Ten",
-      options: ['Answer one', 'Answer two', 'Answer three', 'Answer four'],
-      answer: 0
+      q: "What company worked with Nintendo to create a new console, at least until Nintendo dropped the project, in the 90's?",
+      options: ['Samsung', 'Microsoft', 'IBM', 'Sony'],
+      answer: 3
     }
   ],
   gameStarted: false,
-  questionsLeft: [0,1,2,3,4,5,6,7,8,9],
+  questionsLeft: [],
   rightAnswers: 0,
   wrongAnswers: 0,
   unanswered: 0,
   intervalVar: "",
   questionAnswered: false,
-  count: 30,
+  count: 15,
   resetQuiz: function(){
-    this.questionsLeft = [0,1,2,3,4,5,6,7,8,9]
+    for(i=0;i<this.questions.length;i++){
+      this.questionsLeft.push(i)
+    }
     this.rightAnswers = 0
     this.wrongAnswers = 0
     this.unanswered = 0
-    this.count = 30
+    this.count = 15
   },
   countFunc: function(){
     this.count--
-    document.getElementById('question-timer').textContent = this.count
+    $('#question-timer').text(this.count)
     if(this.count === 0){
       this.unanswered++
       gameObj.questionAnswered = true
-      document.getElementById('question-timer').textContent = `You ran out of time for that question...`
-      console.log('Count is 0! You failed to answer in time...')
-      this.count = 30
+      $('#question-timer').text(`You ran out of time for that question...`)
+      var qVal = $('.question-option').val()
+      $(`#${gameObj.questions[$('.question-option').val()].answer.toString()}`).addClass('highlight-correct')
+      this.count = 15
       clearInterval(this.intervalVar)
       setTimeout(this.displayQuestionInfo.bind(this), 3000)
     }
   },
   displayQuestionInfo: function(){
-    var options = document.getElementById('current-answer-choices')
-    var timer = document.getElementById('question-timer')
-    var question = document.getElementById('current-question')
+    var optionsEle = $('#current-answer-choices')
+    var timerEle = $('#question-timer')
+    var questionEle = $('#current-question')
     document.getElementById('quiz-results').textContent = ''
     if(this.questionsLeft.length > 0){
       this.questionAnswered = false
       var q = this.questionsLeft[Math.floor(Math.random() * this.questionsLeft.length)]
       this.questionsLeft.splice(this.questionsLeft.indexOf(q), 1)
-      timer.textContent = gameObj.count
+      timerEle.text(gameObj.count)
       gameObj.intervalVar = setInterval(gameObj.countFunc.bind(gameObj), 1000)
-      question.textContent = gameObj.questions[q].q
-      while(options.firstChild){
-        options.removeChild(options.firstChild)
-      }
+      questionEle.text(gameObj.questions[q].q)
+      optionsEle.empty()
       for(i=0;i<gameObj.questions[q].options.length;i++){
-        var newDiv = document.createElement('li')
-        newDiv.classList.add('question-option')
-        newDiv.classList.add('list-group-item')
-        newDiv.id = i
-        newDiv.value = q
-        newDiv.textContent = this.questions[q].options[i]
-        document.getElementById('current-answer-choices').appendChild(newDiv)
+        var newDiv = $('<li>')
+        newDiv.addClass('question-option list-group-item')
+        newDiv.attr('id', i)
+        newDiv.val(q)
+        newDiv.text(this.questions[q].options[i])
+        $('#current-answer-choices').append(newDiv)
         if(i===gameObj.questions[q].options.length - 1){
           var elements = document.querySelectorAll('.question-option')
           for(i=0;i<elements.length;i++){
-            console.log(elements[i])
             elements[i].addEventListener('click', function(e){
               if(!gameObj.questionAnswered){
                 gameObj.questionAnswered = !gameObj.questionAnswered
-                gameObj.count = 30
+                gameObj.count = 15
                 console.log(e.target.id + ' ' + gameObj.questions[this.value].answer)
                 if(e.target.id == gameObj.questions[this.value].answer){
                   gameObj.rightAnswers++
                   console.log('You got it!')
                   this.classList.add('highlight-correct')
-                  document.getElementById('question-timer').textContent = `That's correct!`
+                  timerEle.text(`That's correct!`)
                   clearInterval(gameObj.intervalVar)
                   setTimeout(gameObj.displayQuestionInfo.bind(gameObj), 3000)
                 } else {
                   gameObj.wrongAnswers++
                   console.log('You did not get it...')
-                  document.getElementById(gameObj.questions[this.value].answer).classList.add('highlight-correct')
+                  $(`#${gameObj.questions[this.value].answer}`).addClass('highlight-correct')
                   this.classList.add('highlight-incorrect')
-                  document.getElementById('question-timer').textContent = `That's incorrect...`
+                  timerEle.text(`That's incorrect...`)
                   clearInterval(gameObj.intervalVar)
                   setTimeout(gameObj.displayQuestionInfo.bind(gameObj), 3000)
                 }
@@ -133,12 +122,10 @@ gameObj = {
         }
       }
     } else {
-      while(options.firstChild){
-        options.removeChild(options.firstChild)
-      }
-      timer.textContent = ''
-      question.textContent = ''
-      document.getElementById('quiz-results').innerHTML = `
+      optionsEle.empty()
+      timerEle.text('')
+      questionEle.text('')
+      $('#quiz-results').html(`
         <div id='results-container'>
           <h1>Congratulations! You finished the quiz!</h1>
           <h2>Press any key for a retake!</h2>
@@ -146,29 +133,13 @@ gameObj = {
           <h3>Correct: ${gameObj.rightAnswers} Incorrect ${gameObj.wrongAnswers}</h3>
           <h3>Unanswered: ${gameObj.unanswered}</h3>
         </div>
-      `
+      `)
       gameObj.gameStarted = !gameObj.gameStarted
       console.log(`You're out of questions!`)
     }
   },
 }
 
-// Initial Page Setup:
-// Display message for player to push any key to start the quiz
-// Check for any key press to start the quiz
-//
-// Once any key pressed, display random question and remove that question option
-// from the questionLeft array
-// Set a timeout for 30 seconds
-// if user selects correct option, congratulate them and wait a few seconds before
-// displaying another question randomly, same as before. Increment rightAnswers
-// if user selects incorrect option, let them know it's wrong and highlight the correct
-// option, then wait and display another question after. increment wrongAnswers
-// if user does not select any answer and the timeout finishes, let them know time is up
-// then shortly after display a new question. increment unanswered.
-//
-// Once all questionsLeft array is empty, display page with quiz results and give option
-// to start over.
 document.onkeyup = function(e){
   console.log(e.key)
   if(e.key !== "F5" && !gameObj.gameStarted){

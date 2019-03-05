@@ -26,7 +26,7 @@ body {
 #current-question {
   text-align: center;
 }
-question-option {
+.question-option {
   cursor: pointer;
 }
 .highlight-correct {
