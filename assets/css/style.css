@@ -5,13 +5,37 @@ header {
   padding: 25px;
   text-align: center;
   color: #fff;
-  background: #4f4f4f;
-  border-bottom: 5px solid #2f2f2f;
+  background: #A596BE;
+  border-bottom: 5px solid #CD9CAD;
+  text-shadow: 0 0 5px black;;
 }
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: 'Press Start 2P', cursive, serif;
+  background: url('../images/cityscape.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+h1 {
+  font-size: 24px;
+  padding: 10px;
+}
+.container h1 {
+  text-shadow: 0 0 5px white;
+}
+h2 {
+  font-size: 20px;
+  padding: 25px;
+  text-shadow: 0 0 5px white;
+}
+h3 {
+  padding: 5px;
+  text-shadow: 0 0 5px white;
+}
+ul {
+  margin-top: 25px;
 }
 .container {
   margin-top: 50px;
@@ -30,21 +54,20 @@ body {
   cursor: pointer;
 }
 .highlight-correct {
-  box-shadow: inset 0 0 25px green;
+  box-shadow: inset 0 0 25px #08AF14;
 }
 .highlight-incorrect {
-  box-shadow: inset 0 0 25px red;
+  box-shadow: inset 0 0 25px #FA2A1B;
 }
 #results-container {
   text-align: center;
   padding: .75rem 1.25rem;
-  border: 1px solid rgba(0,0,0,.125);
 }
 
 footer {
   padding: 25px;
   text-align: center;
   color: #fff;
-  background: #4f4f4f;
-  border-top: 5px solid #2f2f2f;
+  background: #122125;
+  border-top: 5px solid #122125;
 }
