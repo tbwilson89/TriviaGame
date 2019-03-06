@@ -39,6 +39,11 @@ gameObj = {
       q: "What company worked with Nintendo to create a new console, at least until Nintendo dropped the project, in the 90's?",
       options: ['Samsung', 'Microsoft', 'IBM', 'Sony'],
       answer: 3
+    },
+    {
+      q: "What is the name of the final boss in Super Mario RPG: Legend of the Seven Stars?",
+      options: ['Bowser', 'King Dedede', 'Geno', 'Smithy'],
+      answer: 3
     }
   ],
   gameStarted: false,

@@ -49,6 +49,7 @@ ul {
 }
 #current-question {
   text-align: center;
+  line-height: 1.5em;
 }
 .question-option {
   cursor: pointer;
