@@ -134,7 +134,7 @@ gameObj = {
         <div id='results-container'>
           <h1>Congratulations! You finished the quiz!</h1>
           <h2>Press any key for a retake!</h2>
-          <h3>Score: ${(gameObj.rightAnswers / gameObj.questions.length) * 100}%</h3>
+          <h3>Score: ${((gameObj.rightAnswers / gameObj.questions.length) * 100).toFixed(2)}%</h3>
           <h3>Correct: ${gameObj.rightAnswers} Incorrect ${gameObj.wrongAnswers}</h3>
           <h3>Unanswered: ${gameObj.unanswered}</h3>
         </div>
